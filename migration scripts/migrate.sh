@@ -11,7 +11,7 @@ COLLATION="latin1_swedish_ci"
 OLD_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-6.1.0"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
 MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
-
+MIGRATION_RESOURCES_PATH="/Users/malithd/Downloads/wso2is-migration-1.0.280/migration-resources"
 echo "=== Creating the databases and tables in the MySQL server ==="
 
 # Execute multiple MySQL commands.
@@ -79,3 +79,7 @@ sh $OLD_PACK_HOME/bin/wso2server.sh
 echo "=== Copying the migration jar to the old pack ==="
 cp $MIGRATION_JAR_PATH $OLD_PACK_HOME/repository/components/dropins
 echo "Migration jar copied successfully."
+
+echo "=== Copying the migration resources to old pack ==="
+cp -r $MIGRATION_RESOURCES_PATH $OLD_PACK_HOME
+echo "Migration resource folder has copied to old pack home."
