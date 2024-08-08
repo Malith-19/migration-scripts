@@ -10,6 +10,7 @@ CHARSET="latin1"
 COLLATION="latin1_swedish_ci"
 OLD_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-6.1.0"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
+MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
 
 echo "=== Creating the databases and tables in the MySQL server ==="
 
@@ -71,7 +72,10 @@ read
 
 # Starting the old pack.
 echo "=== Starting the old pack. ==="
+echo "Please press ctrl+c after you created a group in using the console."
 sh $OLD_PACK_HOME/bin/wso2server.sh
 
-
-
+# Copy the migration jar file into old pack.
+echo "=== Copying the migration jar to the old pack ==="
+cp $MIGRATION_JAR_PATH $OLD_PACK_HOME/repository/components/dropins
+echo "Migration jar copied successfully."
