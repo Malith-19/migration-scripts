@@ -80,6 +80,16 @@ echo "=== Copying the migration jar to the old pack ==="
 cp $MIGRATION_JAR_PATH $OLD_PACK_HOME/repository/components/dropins
 echo "Migration jar copied successfully."
 
+# Edit the migration-config file.
+echo "=== Edit the migration-config file ==="
+echo "Please add the current version and migration version."
+echo "Please add the reportPath s by creating a txt file where you want."
+echo "Press enter after you done the configurations."
+code $MIGRATION_RESOURCES_PATH/migration-config.yaml
+read
+echo "Migration configurations have done."
+
+# Copy the migration resources folder into old pack.
 echo "=== Copying the migration resources to old pack ==="
 cp -r $MIGRATION_RESOURCES_PATH $OLD_PACK_HOME
 echo "Migration resource folder has copied to old pack home."
