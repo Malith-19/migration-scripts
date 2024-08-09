@@ -14,7 +14,7 @@ NEW_PACK_ZIP="/Users/malithd/Documents/repos/product_binaries/wso2is-7.0.0.zip"
 NEW_PACK_ROOT="/Users/malithd/Documents/repos/product_binaries"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
 MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
-MIGRATION_RESOURCES_PATH="/Users/malithd/Downloads/wso2is-migration-1.0.280/migration-resources"
+MIGRATION_RESOURCES_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-resources"
 
 
 # Execute multiple MySQL commands.
@@ -106,13 +106,10 @@ sh $OLD_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity -DdryRun
 # Opening the report file.
 echo "Opening the report file. Please check the report for any errors."
 code $OLD_PACK_HOME/report/report.txt
+echo "Press enter after you done checking the report."
+read
 
-# Update the new pack before starting.
-echo "=== Running the update script in new pack to check for updates. ==="
-$NEW_PACK_HOME/bin/wso2update_darwin
 
-echo "=== Running the update script in new pack to get the updates ==="
-$NEW_PACK_HOME/bin/wso2update_darwin
 
 # Delete the new pack if exists.
 echo "=== Deleting the new pack if exists. ==="
@@ -121,6 +118,13 @@ rm -r $NEW_PACK_HOME
 # Unzip a new pack.
 echo "=== Unzipping the new pack. ==="
 unzip $NEW_PACK_ZIP -d $NEW_PACK_ROOT
+
+# Update the new pack before starting.
+echo "=== Running the update script in new pack to check for updates. ==="
+$NEW_PACK_HOME/bin/wso2update_darwin
+
+echo "=== Running the update script in new pack to get the updates ==="
+$NEW_PACK_HOME/bin/wso2update_darwin
 
 # Starting the new pack.
 echo "=== Starting the new pack. ==="
