@@ -170,3 +170,19 @@ properties.GroupIDEnabled = false
 code $NEW_PACK_HOME/repository/conf/deployment.toml
 echo "Press enter after you done the configurations."
 read
+
+# Copy the database driver to the new pack.
+echo "=== Copying the mysql jar to the new pack ==="
+cp $DB_DRIVER_PATH $NEW_PACK_HOME/repository/components/lib
+
+# Copy the migration jar file into new pack.
+echo "=== Copying the migration jar to the new pack ==="
+cp $MIGRATION_JAR_PATH $NEW_PACK_HOME/repository/components/dropins
+
+# Copy the migration resources folder into new pack.
+echo "=== Copying the migration resources to new pack ==="
+cp -r $MIGRATION_RESOURCES_PATH $NEW_PACK_HOME
+
+# Running the migration in the new pack.
+echo "=== Running the migration in the new pack. ==="
+sh $NEW_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity
