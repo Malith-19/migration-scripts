@@ -10,6 +10,8 @@ CHARSET="latin1"
 COLLATION="latin1_swedish_ci"
 OLD_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-6.1.0"
 NEW_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-7.0.0"
+NEW_PACK_ZIP="/Users/malithd/Documents/repos/product_binaries/wso2is-7.0.0.zip"
+NEW_PACK_ROOT="/Users/malithd/Documents/repos/product_binaries"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
 MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
 MIGRATION_RESOURCES_PATH="/Users/malithd/Downloads/wso2is-migration-1.0.280/migration-resources"
@@ -111,3 +113,60 @@ $NEW_PACK_HOME/bin/wso2update_darwin
 
 echo "=== Running the update script in new pack to get the updates ==="
 $NEW_PACK_HOME/bin/wso2update_darwin
+
+# Delete the new pack if exists.
+echo "=== Deleting the new pack if exists. ==="
+rm -r $NEW_PACK_HOME
+
+# Unzip a new pack.
+echo "=== Unzipping the new pack. ==="
+unzip $NEW_PACK_ZIP -d $NEW_PACK_ROOT
+
+# Starting the new pack.
+echo "=== Starting the new pack. ==="
+echo "Please press ctrl+c aftre verifying the start up."
+sh $NEW_PACK_HOME/bin/wso2server.sh
+
+# Configuring the toml file in the new pack.
+echo "=== Edit the nedeed configurations in the deployment.toml file. by adding or updating below configs. ==="
+echo "Do the following configurations in the deployment.toml file.
+1. Change the database configurations.
+
+eg:
+[database.identity_db]
+type = "mysql"
+hostname = "localhost"
+name = "regdb"
+username = "regadmin"
+password = "regadmin"
+port = "3306"
+
+[database.shared_db]
+type = "mysql"
+hostname = "localhost"
+name = "regdb"
+username = "regadmin"
+password = "regadmin"
+port = "3306"
+
+2. Change admin creation permision.
+
+eg:
+[super_admin]
+...
+create_admin_account = false
+
+3. Add or update the authorization manager properties.
+
+eg:
+[authorization_manager.properties]
+GroupAndRoleSeparationEnabled = false
+
+4. Add or update below to avoid group_uuid error (don't add this once we fix this in migration).
+
+[user_store]
+properties.GroupIDEnabled = false
+"
+code $NEW_PACK_HOME/repository/conf/deployment.toml
+echo "Press enter after you done the configurations."
+read
