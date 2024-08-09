@@ -12,9 +12,10 @@ OLD_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-6.1.0"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
 MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
 MIGRATION_RESOURCES_PATH="/Users/malithd/Downloads/wso2is-migration-1.0.280/migration-resources"
-echo "=== Creating the databases and tables in the MySQL server ==="
+
 
 # Execute multiple MySQL commands.
+echo "=== Creating the databases and tables in the MySQL server ==="
 mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST <<EOF
 DROP DATABASE IF EXISTS $IDENTITY_DB;
 CREATE DATABASE $IDENTITY_DB CHARACTER SET $CHARSET COLLATE $COLLATION;
@@ -98,3 +99,7 @@ echo "Migration resource folder has copied to old pack home."
 echo "=== Starting the dry run for the old pack. ==="
 echo "Press ctrl+c after the dry run is completed."
 sh $OLD_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity -DdryRun
+
+# Opening the report file.
+echo "Opening the report file. Please check the report for any errors."
+code $OLD_PACK_HOME/report/report.txt
