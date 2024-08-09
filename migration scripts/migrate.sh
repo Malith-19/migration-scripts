@@ -93,3 +93,8 @@ echo "Migration configurations have done."
 echo "=== Copying the migration resources to old pack ==="
 cp -r $MIGRATION_RESOURCES_PATH $OLD_PACK_HOME
 echo "Migration resource folder has copied to old pack home."
+
+# Starting the dry run for the old pack.
+echo "=== Starting the dry run for the old pack. ==="
+echo "Press ctrl+c after the dry run is completed."
+sh $OLD_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity -DdryRun
