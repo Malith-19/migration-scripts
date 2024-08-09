@@ -9,6 +9,7 @@ SHARED_DB="shared"
 CHARSET="latin1"
 COLLATION="latin1_swedish_ci"
 OLD_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-6.1.0"
+NEW_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-7.0.0"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
 MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
 MIGRATION_RESOURCES_PATH="/Users/malithd/Downloads/wso2is-migration-1.0.280/migration-resources"
@@ -103,3 +104,10 @@ sh $OLD_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity -DdryRun
 # Opening the report file.
 echo "Opening the report file. Please check the report for any errors."
 code $OLD_PACK_HOME/report/report.txt
+
+# Update the new pack before starting.
+echo "=== Running the update script in new pack to check for updates. ==="
+$NEW_PACK_HOME/bin/wso2update_darwin
+
+echo "=== Running the update script in new pack to get the updates ==="
+$NEW_PACK_HOME/bin/wso2update_darwin
