@@ -14,7 +14,7 @@ NEW_PACK_ZIP="/Users/malithd/Documents/repos/product_binaries/wso2is-7.0.0.zip"
 NEW_PACK_ROOT="/Users/malithd/Documents/repos/product_binaries"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
 MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
-MIGRATION_RESOURCES_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-resources"
+MIGRATION_RESOURCES_PATH="/Users/malithd/Documents/repos/product_binaries/migration-resources"
 
 
 # Execute multiple MySQL commands.
@@ -39,6 +39,19 @@ else
   exit 1
 fi
 
+# Delete the old pack if exists.
+echo "=== Deleting the old pack if exists. ==="
+rm -r $OLD_PACK_HOME
+
+# Extract the old pack.
+echo "=== Extracting the old pack. ==="
+unzip $OLD_PACK_HOME.zip -d $NEW_PACK_ROOT
+
+# Create the report file.
+echo "=== Create the report file ==="
+mkdir $OLD_PACK_HOME/report
+touch $OLD_PACK_HOME/report/report.txt
+
 echo "=== Copying the mysql jar to the old pack ==="
 # Copy the MySQL driver to the <IS_HOME>/repository/components/lib directory.
 cp $DB_DRIVER_PATH $OLD_PACK_HOME/repository/components/lib
@@ -55,18 +68,19 @@ echo "=== Edit the nedeed configurations in the deployment.toml file. by adding 
 echo "[database.identity_db]
 type = "mysql"
 hostname = "localhost"
-name = "regdb"
-username = "regadmin"
-password = "regadmin"
+name = $IDENTITY_DB
+username = $MYSQL_USER
+password = $MYSQL_PASSWORD
 port = "3306"
 
 [database.shared_db]
 type = "mysql"
 hostname = "localhost"
-name = "regdb"
-username = "regadmin"
-password = "regadmin"
-port = "3306""
+name = $SHARED_DB
+username = $MYSQL_USER
+password = $MYSQL_PASSWORD
+port = "3306"
+"
 
 
 # Open the deployment.toml file in the <IS_HOME>/repository/conf directory and configure the database connection details.
@@ -77,7 +91,7 @@ read
 # Starting the old pack.
 echo "=== Starting the old pack. ==="
 echo "Please press ctrl+c after you created a group in using the console."
-sh $OLD_PACK_HOME/bin/wso2server.sh
+# sh $OLD_PACK_HOME/bin/wso2server.sh
 
 # Copy the migration jar file into old pack.
 echo "=== Copying the migration jar to the old pack ==="
@@ -121,15 +135,15 @@ unzip $NEW_PACK_ZIP -d $NEW_PACK_ROOT
 
 # Update the new pack before starting.
 echo "=== Running the update script in new pack to check for updates. ==="
-$NEW_PACK_HOME/bin/wso2update_darwin
+# $NEW_PACK_HOME/bin/wso2update_darwin
 
 echo "=== Running the update script in new pack to get the updates ==="
-$NEW_PACK_HOME/bin/wso2update_darwin
+# $NEW_PACK_HOME/bin/wso2update_darwin
 
 # Starting the new pack.
 echo "=== Starting the new pack. ==="
 echo "Please press ctrl+c aftre verifying the start up."
-sh $NEW_PACK_HOME/bin/wso2server.sh
+# sh $NEW_PACK_HOME/bin/wso2server.sh
 
 # Configuring the toml file in the new pack.
 echo "=== Edit the nedeed configurations in the deployment.toml file. by adding or updating below configs. ==="
@@ -162,7 +176,7 @@ create_admin_account = false
 
 3. Add or update the authorization manager properties.
 
-eg:
+eg: (Remove tis after migration)
 [authorization_manager.properties]
 GroupAndRoleSeparationEnabled = false
 
