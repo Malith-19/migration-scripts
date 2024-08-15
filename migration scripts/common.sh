@@ -16,6 +16,13 @@ extract_old_pack(){
     unzip $OLD_PACK_HOME.zip -d $PACK_ROOT
 }
 
+# Create a report file.
+create_report_file(){
+    print_info "Creating the report file."
+    mkdir $OLD_PACK_HOME/report
+    touch $OLD_PACK_HOME/report/report.txt
+}
+
 # Copy the db driver to old pack.
 copy_db_driver(){
     local DB_DRIVER_PATH=$1
