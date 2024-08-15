@@ -4,6 +4,10 @@ print_info(){
     echo "[INFO]    $1"
 }
 
+print_input_message(){
+    echo "[INPUT]   $1"
+}
+
 # Delete the old pack.
 delete_old_pack(){
     print_info "Deleting the old pack if exists."
@@ -14,6 +18,18 @@ delete_old_pack(){
 extract_old_pack(){
     print_info "Unzipping the old pack."
     unzip $OLD_PACK_HOME.zip -d $PACK_ROOT
+}
+
+# Delete the new pack.
+delete_new_pack(){
+    print_info "Deleting the new pack if exists."
+    rm -r $NEW_PACK_HOME
+}
+
+# Unzip the new pack.
+extract_new_pack(){
+    print_info "Unzipping the new pack."
+    unzip $NEW_PACK_HOME.zip -d $PACK_ROOT
 }
 
 # Create a report file.
@@ -44,18 +60,6 @@ copY_migration_resources_to_new(){
     cp $MIGRATION_JAR $NEW_PACK_HOME/repository/components/dropins
 }
 
-# Delete the new pack.
-delete_new_pack(){
-    print_info "Deleting the new pack if exists."
-    rm -r $NEW_PACK_HOME
-}
-
-# Unzip the new pack.
-extract_new_pack(){
-    print_info "Unzipping the new pack."
-    unzip $NEW_PACK_HOME.zip -d $PACK_ROOT
-}
-
 # Get the update for the pack
 get_update(){
     print_info "Getting the update for the pack."
@@ -65,5 +69,36 @@ get_update(){
 
     print_info "Running the update again to download the updates."
     sh $PACK_HOME/bin/wso2update_darwin
+}
+
+# Running the dry run for the old pack.
+start_dry_run(){
+    print_info "Starting the dry run for the old pack."
+    sh $OLD_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity -DdryRun
+}
+
+# Opening the report file.
+open_report_file(){
+    print_info "Opening the report file."
+    code $OLD_PACK_HOME/report/report.txt
+    print_input_message "Press enter after you done checking the report."
+    read
+}
+
+# Starting the new pack.
+start_new_pack(){
+    print_info "Starting the new pack."
+    sh $NEW_PACK_HOME/bin/wso2server.sh
+}
+
+# Starting the old pack.
+start_old_pack(){
+    print_info "Starting the old pack."
+    sh $OLD_PACK_HOME/bin/wso2server.sh
+}
+
+start_migration(){
+    print_info "Starting the migration."
+    sh $NEW_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity
 }
 
