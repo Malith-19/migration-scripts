@@ -30,6 +30,20 @@ copy_db_driver(){
     cp $DB_DRIVER_PATH $OLD_PACK_HOME/repository/components/lib
 }
 
+# Copy the migration jar and resources to old pack.
+copy_migration_resources_to_old(){
+    print_info "Copying the migration jar and resources to the old pack."
+    cp -r $MIGRATION_RESOURCES $OLD_PACK_HOME
+    cp $MIGRATION_JAR $OLD_PACK_HOME/repository/components/dropins
+}
+
+# Copy the migration jar and resources to new pack.
+copY_migration_resources_to_new(){
+    print_info "Copying the migration jar and resources to the new pack."
+    cp -r $MIGRATION_RESOURCES $NEW_PACK_HOME
+    cp $MIGRATION_JAR $NEW_PACK_HOME/repository/components/dropins
+}
+
 # Delete the new pack.
 delete_new_pack(){
     print_info "Deleting the new pack if exists."
