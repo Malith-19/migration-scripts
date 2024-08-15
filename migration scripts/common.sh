@@ -35,3 +35,14 @@ extract_new_pack(){
     unzip $NEW_PACK_HOME.zip -d $PACK_ROOT
 }
 
+# Get the update for the pack
+get_update(){
+    print_info "Getting the update for the pack."
+    local PACK_HOME = $1
+
+    sh $PACK_HOME/bin/wso2update_darwin
+
+    print_info "Running the update again to download the updates."
+    sh $PACK_HOME/bin/wso2update_darwin
+}
+
