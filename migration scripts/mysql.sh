@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./common.sh
+
 # Variables.
 MYSQL_USER="root"
 MYSQL_HOST="localhost"
@@ -8,14 +10,7 @@ IDENTITY_DB="identity"
 SHARED_DB="shared"
 CHARSET="latin1"
 COLLATION="latin1_swedish_ci"
-OLD_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-6.1.0"
-NEW_PACK_HOME="/Users/malithd/Documents/repos/product_binaries/wso2is-7.0.0"
-NEW_PACK_ZIP="/Users/malithd/Documents/repos/product_binaries/wso2is-7.0.0.zip"
-NEW_PACK_ROOT="/Users/malithd/Documents/repos/product_binaries"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
-MIGRATION_JAR_PATH="/Users/malithd/Documents/repos/wso2_enterprise/identity-migration-resources/components/org.wso2.is.migration/migration-service/target/org.wso2.carbon.is.migration-1.0.281-SNAPSHOT.jar"
-MIGRATION_RESOURCES_PATH="/Users/malithd/Documents/repos/product_binaries/migration-resources"
-
 
 # Execute multiple MySQL commands.
 echo "=== Creating the databases and tables in the MySQL server ==="
@@ -40,28 +35,16 @@ else
 fi
 
 # Delete the old pack if exists.
-echo "=== Deleting the old pack if exists. ==="
-rm -r $OLD_PACK_HOME
+delete_old_pack
 
 # Extract the old pack.
-echo "=== Extracting the old pack. ==="
-unzip $OLD_PACK_HOME.zip -d $NEW_PACK_ROOT
+extract_old_pack
 
 # Create the report file.
-echo "=== Create the report file ==="
-mkdir $OLD_PACK_HOME/report
-touch $OLD_PACK_HOME/report/report.txt
+create_report_file
 
-echo "=== Copying the mysql jar to the old pack ==="
 # Copy the MySQL driver to the <IS_HOME>/repository/components/lib directory.
-cp $DB_DRIVER_PATH $OLD_PACK_HOME/repository/components/lib
-
-if [ $? -eq 0 ]; then
-  echo "MySQL driver copied successfully."
-else
-  echo "Failed to copy the MySQL driver."
-  exit 1
-fi
+copy_db_driver $DB_DRIVER_PATH
 
 # Open the deployment.toml file in the <IS_HOME>/repository/conf directory and configure the database connection details.
 echo "=== Edit the nedeed configurations in the deployment.toml file. by adding or updating below configs. ==="
