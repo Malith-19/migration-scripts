@@ -40,24 +40,32 @@ create_report_file(){
 }
 
 # Copy the db driver to old pack.
-copy_db_driver(){
+copy_db_driver_old(){
     local DB_DRIVER_PATH=$1
-    print_info "Copying the MySQL driver to the old pack."
+    print_info "Copying the database driver to the old pack."
     cp $DB_DRIVER_PATH $OLD_PACK_HOME/repository/components/lib
+}
+
+# Copy the db driver to old pack.
+copy_db_driver_new(){
+    local DB_DRIVER_PATH=$1
+    print_info "Copying the database driver to the new pack."
+    cp $DB_DRIVER_PATH $NEW_PACK_HOME/repository/components/lib
 }
 
 # Copy the migration jar and resources to old pack.
 copy_migration_resources_to_old(){
-    print_info "Copying the migration jar and resources to the old pack."
-    cp -r $MIGRATION_RESOURCES $OLD_PACK_HOME
-    cp $MIGRATION_JAR $OLD_PACK_HOME/repository/components/dropins
+    print_info "Copying the migration resources to the old pack."
+    cp -r $MIGRATION_RESOURCES_PATH $OLD_PACK_HOME
+    print_info "Copying the migration jar to the old pack."
+    cp $MIGRATION_JAR_PATH $OLD_PACK_HOME/repository/components/dropins
 }
 
 # Copy the migration jar and resources to new pack.
-copY_migration_resources_to_new(){
+copy_migration_resources_to_new(){
     print_info "Copying the migration jar and resources to the new pack."
-    cp -r $MIGRATION_RESOURCES $NEW_PACK_HOME
-    cp $MIGRATION_JAR $NEW_PACK_HOME/repository/components/dropins
+    cp -r $MIGRATION_RESOURCES_PATH $NEW_PACK_HOME
+    cp $MIGRATION_JAR_PATH $NEW_PACK_HOME/repository/components/dropins
 }
 
 # Get the update for the pack
@@ -73,7 +81,7 @@ get_update(){
 
 # Running the dry run for the old pack.
 start_dry_run(){
-    print_info "Starting the dry run for the old pack."
+    print_info "Starting the dry run for the old pack. Press ctrl+c after the dry run is completed."
     sh $OLD_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity -DdryRun
 }
 
@@ -87,18 +95,42 @@ open_report_file(){
 
 # Starting the new pack.
 start_new_pack(){
-    print_info "Starting the new pack."
+    print_info "Starting the new pack. Press ctrl+c after the server starts to continue."
     sh $NEW_PACK_HOME/bin/wso2server.sh
 }
 
 # Starting the old pack.
 start_old_pack(){
-    print_info "Starting the old pack."
+    print_info "Starting the old pack. Press ctrl+c after the server starts to continue."
     sh $OLD_PACK_HOME/bin/wso2server.sh
 }
 
 start_migration(){
     print_info "Starting the migration."
     sh $NEW_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity
+}
+
+# Delete the old pack toml file.
+delete_old_pack_toml(){
+    print_info "Deleting the old pack toml file."
+    rm $OLD_PACK_HOME/repository/conf/deployment.toml
+}
+
+# Copy the toml file from the resources.
+copy_old_pack_toml(){
+    print_info "Copying the toml file from the resources."
+    cp $OLD_PACK_TOML $OLD_PACK_HOME/repository/conf
+}
+
+# Delete the new pack toml file.
+delete_new_pack_toml(){
+    print_info "Deleting the new pack toml file."
+    rm $NEW_PACK_HOME/repository/conf/deployment.toml
+}
+
+# Copy the toml file from the resources.
+copy_new_pack_toml(){
+    print_info "Copying the toml file from the resources."
+    cp $NEW_PACK_TOML $NEW_PACK_HOME/repository/conf
 }
 
