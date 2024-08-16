@@ -4,6 +4,9 @@ set -e
 
 source ./common.sh
 
+echo "Since we are using docker container for the oracle, you need to create the database and execute the db scripts 
+manually."
+
 # Variables.
 DB_DRIVER_PATH="/Users/malithd/Downloads/ojdbc11.jar"
 
