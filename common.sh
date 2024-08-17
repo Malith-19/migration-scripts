@@ -68,6 +68,13 @@ copy_migration_resources_to_new(){
     cp $MIGRATION_JAR_PATH $NEW_PACK_HOME/repository/components/dropins
 }
 
+# Edit the migration config file.
+edit_migration_config(){
+    code $MIGRATION_RESOURCES_PATH/migration-config.yml
+    print_input_message "Press enter once you edit the file."
+    read
+}
+
 # Get the update for the pack
 get_update(){
     print_info "Getting the update for the pack."
