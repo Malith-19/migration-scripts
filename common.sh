@@ -76,7 +76,7 @@ edit_migration_config(){
 }
 
 # Get the update for the pack
-get_update(){
+update_pack(){
     print_info "Getting the update for the pack."
     local PACK_HOME = $1
 
