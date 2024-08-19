@@ -108,7 +108,6 @@ code $OLD_PACK_HOME/report/report.txt
 echo "Press enter after you done checking the report."
 read
 
-
 # Delete the new pack if exists.
 echo "=== Deleting the new pack if exists. ==="
 rm -r $NEW_PACK_HOME
@@ -193,6 +192,3 @@ cp -r $MIGRATION_RESOURCES_PATH $NEW_PACK_HOME
 # Running the migration in the new pack.
 echo "=== Running the migration in the new pack. ==="
 sh $NEW_PACK_HOME/bin/wso2server.sh -Dmigrate -Dcomponent=identity
-
-
-
