@@ -141,3 +141,10 @@ copy_new_pack_toml(){
     cp $NEW_PACK_TOML $NEW_PACK_HOME/repository/conf
 }
 
+copy_dbscript_to_container(){
+    local  DB_SCRIPT_PATH=$1
+    local CONTAINER_NAME=$2
+    local TARGET_PATH=$3
+
+    docker cp $DB_SCRIPT_PATH $CONTAINER_NAME:$TARGET_PATH
+}
