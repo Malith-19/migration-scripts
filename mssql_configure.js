@@ -12,10 +12,12 @@ const dbPort = process.argv[6];
 console.log('dbPort', dbPort);
 
 var dbCreateSQL = `
-DROP DATABASE IF EXISTS ${identityDBName};
+IF EXISTS(SELECT * FROM sys.databases WHERE name = N'${identityDBName}')
+    DROP DATABASE ${identityDBName};
 CREATE DATABASE ${identityDBName};
 
-DROP DATABASE IF EXISTS ${sharedDBName};
+IF EXISTS(SELECT * FROM sys.databases WHERE name = N'${sharedDBName}')
+    DROP DATABASE ${sharedDBName};
 CREATE DATABASE ${sharedDBName};
 `;
 
@@ -68,7 +70,7 @@ function createDatabase() {
     var connection = new Connection(createConfig("master"));
     connection.on('connect', function (err) {
         if (err) {
-            console.log(err);
+            console.log('Error occured while creating the databases.',err);
 
             return;
         }
@@ -94,7 +96,6 @@ async function executeDBScripts(dbName, dbScripts) {
             connection.on('connect', function (err) {
                 // If no error, then good to proceed.
                 console.log("Connected to database " + dbName);
-                // console.log("query:"+data[i]);
                 if (data[i] != '') {
                     executeStatement(data[i], connection);
                 }
@@ -129,8 +130,8 @@ function sleep(ms) {
 
 async function run_processes() {
 
-    await createDatabase();
-    // await executeScriptsOnDB();
+    createDatabase();
+    await executeScriptsOnDB();
     process.exit(0)
 }
 
