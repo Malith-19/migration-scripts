@@ -15,6 +15,7 @@ set -e
 
 source ./common.sh
 
+# Function to configure the MSSQL database.
 configure_mssql_database_arm64() {
     print_info "Configuring MSSQL database."
 
