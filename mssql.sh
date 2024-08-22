@@ -61,7 +61,7 @@ delete_new_pack
 extract_new_pack
 
 # Copy the toml file to new pack.
-delete_old_pack_toml
+delete_new_pack_toml
 copy_new_pack_toml
 
 # Copy the db driver to new pack.
