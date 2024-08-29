@@ -148,3 +148,8 @@ copy_dbscript_to_container(){
 
     docker cp $DB_SCRIPT_PATH $CONTAINER_NAME:$TARGET_PATH
 }
+
+copy_userstore_from_old_to_new(){
+    print_info "Copying the user store folder to new pack"
+    cp -r $OLD_PACK_HOME/repository/deployment/server/userstore $NEW_PACK_HOME/repository/deployment/server/userstore
+}
