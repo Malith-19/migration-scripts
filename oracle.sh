@@ -4,7 +4,7 @@ set -e
 
 source ./common.sh
 
-echo "Since we are using docker container for the oracle, you need to create the database and execute the db scripts 
+print_info "Since we are using docker container for the oracle, you need to create the database and execute the db scripts 
 manually."
 
 # Variables.
