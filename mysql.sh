@@ -7,7 +7,7 @@ set -e
 # Variables
 MYSQL_USER="root"
 MYSQL_HOST="localhost"
-MYSQL_PASSWORD="Malith-21512"
+MYSQL_PASSWORD="ws02carbon"
 CHARSET="latin1"
 COLLATION="latin1_swedish_ci"
 DB_DRIVER_PATH="/Users/malithd/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"
