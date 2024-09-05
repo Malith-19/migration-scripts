@@ -151,5 +151,5 @@ copy_dbscript_to_container(){
 
 copy_userstore_from_old_to_new(){
     print_info "Copying the user store folder to new pack"
-    cp -r $OLD_PACK_HOME/repository/deployment/server/userstore $NEW_PACK_HOME/repository/deployment/server/userstore
+    cp -r $OLD_PACK_HOME/repository/deployment/server/userstores $NEW_PACK_HOME/repository/deployment/server/userstores
 }
