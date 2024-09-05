@@ -24,3 +24,6 @@ The `common.sh` bash script contains the common functions used in the migration 
 
 # Contributing
 This is a public repository and intension was to make the migration testing process easier. Please feel free to contribute to the repository by creating a pull request.
+
+# Full Article
+For more information, please refer to the full article [here](https://medium.com/@malith_dilshan/automating-the-wso2-is-migration-process-94cce2bb80bb)
